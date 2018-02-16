@@ -1,2 +1,2 @@
-# LSDM-project3
-LSDM- Collaborative Filtering
+# Large Scale Data Mining
+This repository contains projects for EE219 course.
