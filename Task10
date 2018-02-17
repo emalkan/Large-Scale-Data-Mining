@@ -1,0 +1,28 @@
+from surprise import Reader, Dataset
+from surprise import KNNBasic, KNNWithMeans, evaluate
+from surprise.model_selection import cross_validate
+import numpy as np
+#import surprise
+# Define the format
+
+reader = Reader(line_format="user item rating timestamp", sep=',',skip_lines=1)
+#data = Dataset.load_from_file('./ml-latest-small/ratings.csv', reader=reader)
+data = Dataset.load_from_file('C:/Users/ektam/Desktop/Ekta/Subjects/Q2/LargeScaleDataMining/Project3/ml-latest-small/ratings.csv', reader=reader)
+meanRMSE=[]
+meanMAE=[]
+
+for i in range(2,101,2):
+    print " for k = "+str(i)
+
+
+    sim_options = {
+    'name': 'pearson',
+    'user_based': True  
+    }
+
+    #algo = KNNBasic(k=i, sim_options=sim_options)
+    algo = KNNWithMeans(k=i, sim_options=sim_options)
+    ans=cross_validate(algo, data, measures=['RMSE', 'MAE'], cv=10, verbose=True)
+    meanRMSE.append(np.mean(ans.get('test_rmse')))
+    meanMAE.append(np.mean(ans.get('test_mae')))
+    
